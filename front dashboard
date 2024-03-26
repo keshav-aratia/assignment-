@@ -1,0 +1,41 @@
+// Frontend code (React.js)
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const ReportsDashboard = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/data');
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  return (
+    <div className="container">
+      <h1>Reports Dashboard</h1>
+      <div className="row">
+        {data.map((item) => (
+          <div className="col-md-6" key={item.id}>
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">{item.title}</h5>
+                <p className="card-text">{item.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ReportsDashboard;
